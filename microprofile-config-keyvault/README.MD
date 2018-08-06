@@ -22,7 +22,7 @@ Firstly, add the dependency on this library to your project. Below are examples 
 compile group: 'com.microsoft.azure', name: 'microprofile-config-keyvault', version: '1.0.0-SNAPSHOT'
 ```
 
-Once the dependency is added inside your MicroProfile-based application, you need to create a `microprofile-config.properties` file inside `src/main/resources/META-INF`. Inside this file, the following properties must be set based on the Azure Key Vault configuration you have created (if you haven't created an Azure Key Vault yet, refer to the [steps in my other repo](https://github.com/JonathanGiles/microprofile-on-azure/tree/master/keyvault-configsource)):
+Once the dependency is added inside your MicroProfile-based application, you need to create a `microprofile-config.properties` file inside `src/main/resources/META-INF`. Inside this file, the following properties must be set based on the Azure Key Vault configuration you have created (if you haven't created an Azure Key Vault yet, refer to the [steps in my other repo](https://github.com/Azure-Samples/microprofile-configsource-keyvault)):
 
 ```properties
 # taken from the service principal "appId" response
@@ -35,7 +35,7 @@ azure.keyvault.client.key=9b217777-XXXX-4954-XXXX-deafXXXX790a
 azure.keyvault.url=https://microprofile-kv.vault.azure.net
 ```
 
-Save this file, and then we can move on to your REST endpoints. Again, the [keyvault-configsource sample app](https://github.com/JonathanGiles/microprofile-on-azure/tree/master/keyvault-configsource) has good reference code, but I have reproduced it below:
+Save this file, and then we can move on to your REST endpoints. Again, the [keyvault-configsource sample app](https://github.com/Azure-Samples/microprofile-configsource-keyvault) has good reference code, but I have reproduced it below:
 
 ```java
 import org.eclipse.microprofile.config.inject.ConfigProperty;
