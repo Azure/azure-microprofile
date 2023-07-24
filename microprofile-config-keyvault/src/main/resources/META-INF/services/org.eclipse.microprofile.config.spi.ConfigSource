@@ -1,1 +1,1 @@
-com.microsoft.azure.microprofile.config.keyvault.AzureKeyVaultConfigSource
+com.azure.microprofile.config.keyvault.AzureKeyVaultConfigSource

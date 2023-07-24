@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>com.azure</groupId>
+    <artifactId>microprofile-bom</artifactId>
+    <name>Azure extensions for MicroProfile :: BOM</name>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    
+    <properties>
+        <microprofile.version>6.0</microprofile.version>
+        <azure-sdk-bom.version>1.2.14</azure-sdk-bom.version>
+        <junit-bom.version>5.10.0</junit-bom.version>
+        <mockito-bom.version>5.4.0</mockito-bom.version>
+    </properties>
+    
+    <dependencyManagement>
+        <dependencies>
+            <!-- MicroProfile dependencies, imported as a BOM -->
+            <dependency>
+                <groupId>org.eclipse.microprofile</groupId>
+                <artifactId>microprofile</artifactId>
+                <version>${microprofile.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <!-- Azure sdk dependencies, imported as a BOM -->
+            <dependency>
+                <groupId>com.azure</groupId>
+                <artifactId>azure-sdk-bom</artifactId>
+                <version>${azure-sdk-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <!-- Test: JUnit dependencies, imported as a BOM -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <!-- Test: Mockito dependencies, imported as a BOM -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-bom</artifactId>
+                <version>${mockito-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <!-- Azure extensions for MicroProfile -->
+            <dependency>
+                <groupId>com.azure</groupId>
+                <artifactId>microprofile-config-keyvault</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
