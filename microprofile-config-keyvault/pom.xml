@@ -14,15 +14,19 @@
     <groupId>com.azure</groupId>
     <artifactId>microprofile-config-keyvault</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    
     <name>Azure extensions for MicroProfile :: Config :: KeyVault</name>
     
-    <developers>
-        <developer>
-            <name>Jakarta EE on Azure</name>
-            <email>ddcjavaee@microsoft.com</email>
-        </developer>
-    </developers>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.azure</groupId>
+                <artifactId>microprofile-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     
     <dependencies>
         <dependency>
@@ -57,57 +61,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--      <plugin>-->
-            <!--        <groupId>org.apache.maven.plugins</groupId>-->
-            <!--        <artifactId>maven-gpg-plugin</artifactId>-->
-            <!--        <executions>-->
-            <!--          <execution>-->
-            <!--            <id>sign-artifacts</id>-->
-            <!--            <phase>verify</phase>-->
-            <!--            <goals>-->
-            <!--              <goal>sign</goal>-->
-            <!--            </goals>-->
-            <!--          </execution>-->
-            <!--        </executions>-->
-            <!--      </plugin>-->
-            <!--      <plugin>-->
-            <!--        <groupId>org.sonatype.plugins</groupId>-->
-            <!--        <artifactId>nexus-staging-maven-plugin</artifactId>-->
-            <!--        <extensions>true</extensions>-->
-            <!--        <configuration>-->
-            <!--          <serverId>nexus-snapshots</serverId>-->
-            <!--          <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
-            <!--          <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
-            <!--        </configuration>-->
-            <!--      </plugin>-->
-        </plugins>
-    </build>
-
 </project>
