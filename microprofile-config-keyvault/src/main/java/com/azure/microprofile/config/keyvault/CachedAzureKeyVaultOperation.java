@@ -86,7 +86,7 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
                         .map(SecretProperties::getName)
                         .forEach(key -> propertiesMap.put(key, secretKeyVaultClient.getSecret(key).getValue()));
                 lastUpdateTime.set(System.currentTimeMillis());
-                log.info(() -> "createOrUpdateHashMap() updated the cache at " + DateFormat.getDateTimeInstance().format(lastUpdateTime.get()));
+                log.fine(() -> "createOrUpdateHashMap() updated the cache at " + DateFormat.getDateTimeInstance().format(lastUpdateTime.get()));
             }
         } finally {
             rwLock.writeLock().unlock();
