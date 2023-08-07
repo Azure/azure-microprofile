@@ -39,14 +39,13 @@ jobs:
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-      RESOURCE_GROUP_NAME: mp${{ github.run_id }}${{ github.run_number }}${{ matrix.order }}
-      KEY_VAULT_NAME: kv${{ github.run_id }}${{ github.run_number }}${{ matrix.order }}
+      RESOURCE_GROUP_NAME: mp${{ github.run_id }}${{ github.run_number }}${{ matrix.os_index }}
+      KEY_VAULT_NAME: kv${{ github.run_id }}${{ github.run_number }}${{ matrix.os_index }}
     name: Build on ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
-        order: [1, 2, 3]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Prepare git
