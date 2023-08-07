@@ -6,6 +6,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.StreamSupport;
 
 @Path("/config")
 public class ConfigResource {
@@ -15,8 +20,31 @@ public class ConfigResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("/{name}")
+    @Path("/value/{name}")
     public String getConfigValue(String name) {
         return config.getConfigValue(name).getValue();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/propertyNames")
+    public Set<String> getConfigPropertyNames() {
+        ConfigSource configSource = getConfigSource("AzureKeyVaultConfigSource");
+        return configSource.getPropertyNames();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/properties")
+    public Map<String, String> getConfigProperties() {
+        ConfigSource configSource = getConfigSource("AzureKeyVaultConfigSource");
+        return configSource.getProperties();
+    }
+
+    private ConfigSource getConfigSource(String name) {
+        return StreamSupport.stream(config.getConfigSources().spliterator(), false)
+                .filter(source -> source.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("ConfigSource not found: " + name));
     }
 }
