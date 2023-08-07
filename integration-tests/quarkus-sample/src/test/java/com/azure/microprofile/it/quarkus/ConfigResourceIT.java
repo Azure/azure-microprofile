@@ -1,4 +1,4 @@
-package com.azure.microprofile.it;
+package com.azure.microprofile.it.quarkus;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 import org.junit.jupiter.api.Test;

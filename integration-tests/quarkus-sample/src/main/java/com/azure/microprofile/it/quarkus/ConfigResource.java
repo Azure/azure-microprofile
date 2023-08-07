@@ -1,8 +1,9 @@
-package com.azure.microprofile.it;
+package com.azure.microprofile.it.quarkus;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.config.Config;
@@ -21,7 +22,7 @@ public class ConfigResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/value/{name}")
-    public String getConfigValue(String name) {
+    public String getConfigValue(@PathParam("name") String name) {
         return config.getConfigValue(name).getValue();
     }
 
