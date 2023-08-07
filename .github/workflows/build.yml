@@ -39,18 +39,28 @@ jobs:
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-      RESOURCE_GROUP_NAME: mp${{ github.run_id }}${{ github.run_number }}${{ matrix.os_index }}
-      KEY_VAULT_NAME: kv${{ github.run_id }}${{ github.run_number }}${{ matrix.os_index }}
-    name: Build on ${{ matrix.os }}
+    name: Build on ${{ matrix.os.name }}
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+        os: 
+          - { name: 'windows-latest', order: 1 }
+          - { name: 'macos-latest', order: 2 }
+          - { name: 'ubuntu-latest', order: 3 }
+    runs-on: ${{ matrix.os.name }}
     steps:
+      - name: Set other environment variables 
+        run: |
+          RESOURCE_GROUP_NAME=mp${{ github.run_id }}${{ github.run_number }}${{ matrix.os.order }}
+          KEY_VAULT_NAME=kv${{ github.run_id }}${{ github.run_number }}${{ matrix.os.order }}
+          echo "RESOURCE_GROUP_NAME is $RESOURCE_GROUP_NAME"
+          echo "KEY_VAULT_NAME is $KEY_VAULT_NAME"
+          echo "RESOURCE_GROUP_NAME=${RESOURCE_GROUP_NAME}" >> $GITHUB_ENV
+          echo "KEY_VAULT_NAME=${KEY_VAULT_NAME}" >> $GITHUB_ENV
+
       - name: Prepare git
         run: git config --global core.autocrlf false
-        if: startsWith(matrix.os, 'windows')
+        if: startsWith(matrix.os.name, 'windows')
 
       - uses: actions/checkout@v3
       - name: Set up JDK 11
