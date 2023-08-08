@@ -33,6 +33,7 @@ export AZURE_KEYVAULT_URL=$(az keyvault show \
   --query properties.vaultUri -o tsv)
 
 # Build and run the integration tests against the Azure services
+mvn -version
 mvn -B clean install -Dazure.test=true
 
 # Delete the resource group

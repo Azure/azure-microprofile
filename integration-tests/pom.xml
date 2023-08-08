@@ -17,6 +17,10 @@
         <maven.compiler.target>11</maven.compiler.target>
         <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <failsafe-plugin.version>3.1.2</failsafe-plugin.version>
+        <enforcer-plugin.version>3.3.0</enforcer-plugin.version>
+        <maven.min.version>3.8.6</maven.min.version>
+        <jdk.min.version>${maven.compiler.source}</jdk.min.version>
+        <insecure.repositories>ERROR</insecure.repositories>
         <rest-assured.version>5.3.1</rest-assured.version>
     </properties>
     
@@ -55,6 +59,58 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${enforcer-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-java-version</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <bannedRepositories>
+                                        <message>To build this project, don't use maven repositories over HTTP. Please
+                                            use HTTPS in your settings.xml or run the build with property
+                                            insecure.repositories=WARN
+                                        </message>
+                                        <level>${insecure.repositories}</level>
+                                        <bannedRepositories>
+                                            <bannedRepository>http://*</bannedRepository>
+                                        </bannedRepositories>
+                                        <bannedPluginRepositories>
+                                            <bannedPluginRepository>http://*</bannedPluginRepository>
+                                        </bannedPluginRepositories>
+                                    </bannedRepositories>
+                                    <requireJavaVersion>
+                                        <message>To build this project JDK ${jdk.min.version} (or greater) is required.
+                                            Please install it.
+                                        </message>
+                                        <version>${jdk.min.version}</version>
+                                    </requireJavaVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>enforce-maven-version</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <message>To build this project Maven ${maven.min.version} (or greater) is
+                                            required. Please install it.
+                                        </message>
+                                        <version>${maven.min.version}</version>
+                                    </requireMavenVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${compiler-plugin.version}</version>
                     <configuration>
@@ -85,6 +141,10 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
