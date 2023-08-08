@@ -18,7 +18,8 @@
     <packaging>war</packaging>
     
     <properties>
-        <version.liberty-maven-plugin>3.8.2</version.liberty-maven-plugin>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+        <liberty-maven-plugin.version>3.8.2</liberty-maven-plugin.version>
     </properties>
     
     <dependencies>
@@ -46,17 +47,15 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- Upgrade to maven 3.9.3 solve the issue -->
-            <!-- <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-war-plugin</artifactId>
-              <version>3.3.2</version>
-            </plugin> -->
-            <!-- Enable liberty-maven plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <version>${version.liberty-maven-plugin}</version>
+                <version>${liberty-maven-plugin.version}</version>
                 <configuration>
                     <serverName>defaultServer</serverName>
                 </configuration>
