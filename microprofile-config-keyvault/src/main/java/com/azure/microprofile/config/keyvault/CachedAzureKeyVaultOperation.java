@@ -14,11 +14,17 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Logger;
 
-
+/**
+ * This class is used to fetch and cache the secrets from Azure Key Vault.
+ *
+ * <ul>
+ *  <li>The cache is refreshed if it is hit but expired after the specified cacheRefreshIntervalInMs.</li>
+ *  <li>The default value of cacheRefreshIntervalInMs is 3 minutes.</li>
+ * </ul>
+ */
 class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
+    protected static final long DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS = 180000L; // 3 minutes
     private static final Logger log = Logger.getLogger(CachedAzureKeyVaultOperation.class.getName());
-    private static final long DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS = 180000L; // 3 minutes
-
     private final long cacheRefreshIntervalInMs;
     private final SecretClient secretKeyVaultClient;
 
@@ -26,15 +32,33 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
     private final AtomicLong lastUpdateTime = new AtomicLong();
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
 
+    /**
+     * Constructor of CachedAzureKeyVaultOperation.
+     *
+     * @param url                      URL of Azure Key Vault
+     * @param cacheRefreshIntervalInMs cache refresh interval in milliseconds
+     */
     CachedAzureKeyVaultOperation(String url, Long cacheRefreshIntervalInMs) {
         this(AzureKeyVaultOperation.defaultSecretKeyVaultClient(url), Optional.ofNullable(cacheRefreshIntervalInMs).orElse(DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS));
     }
 
+    /**
+     * Constructor of CachedAzureKeyVaultOperation.
+     *
+     * @param secretKeyVaultClient     SecretClient of Azure Key Vault
+     * @param cacheRefreshIntervalInMs cache refresh interval in milliseconds
+     */
     CachedAzureKeyVaultOperation(SecretClient secretKeyVaultClient, Long cacheRefreshIntervalInMs) {
         this.secretKeyVaultClient = secretKeyVaultClient;
         this.cacheRefreshIntervalInMs = cacheRefreshIntervalInMs;
     }
 
+    /**
+     * Get secrets from Azure Key Vault.
+     *
+     * @return Name/value {@link Map} of secrets.
+     * @implNote This method is thread-safe. It uses {@link ReadWriteLock} to protect the {@link #propertiesMap}. This method will refresh the cache if the cache is expired.
+     */
     public Map<String, String> getProperties() {
         checkRefreshTimeOut();
 
@@ -46,6 +70,12 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
         }
     }
 
+    /**
+     * Get secret names from Azure Key Vault.
+     *
+     * @return Name {@link Set} of secrets.
+     * @implNote This method is thread-safe. It uses {@link ReadWriteLock} to protect the {@link #propertiesMap}. This method will refresh the cache if the cache is expired.
+     */
     public Set<String> getPropertyNames() {
         checkRefreshTimeOut();
 
@@ -57,6 +87,13 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
         }
     }
 
+    /**
+     * Get secret value from Azure Key Vault.
+     *
+     * @param secretName Secret name.
+     * @return Secret value.
+     * @implNote This method is thread-safe. It uses {@link ReadWriteLock} to protect the {@link #propertiesMap}. This method will refresh the cache if the cache is expired.
+     */
     public String getValue(String secretName) {
         checkRefreshTimeOut();
 
@@ -68,6 +105,9 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
         }
     }
 
+    /**
+     * Check if the cache is expired. If it is expired, refresh the cache.
+     */
     private void checkRefreshTimeOut() {
         // refresh periodically
         if (System.currentTimeMillis() - lastUpdateTime.get() > cacheRefreshIntervalInMs) {
@@ -75,6 +115,11 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
         }
     }
 
+    /**
+     * Refresh the cache.
+     *
+     * @implNote This method is thread-safe. It uses {@link ReadWriteLock} to protect the {@link #propertiesMap}.
+     */
     private void createOrUpdateHashMap() {
         try {
             rwLock.writeLock().lock();
