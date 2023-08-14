@@ -19,7 +19,7 @@ By default, the sample depends on the development iteration version. To install 
 need to build it locally.
 
 ```
-# Switch to the root directory of Azure Extensions for MicroProfile.
+# Switch to the root directory of this repository.
 # For example, if you are in the directory of azure-microprofile/integration-tests/quarkus-sample
 cd ../..
 
@@ -32,12 +32,11 @@ cd integration-tests/quarkus-sample
 
 ## Preparing the Azure services
 
-The Custom ConfigSource implemented by `microprofile-config-keyvault` extension needs to connect to a real Azure Key
-Vault instance, follow steps below to create one.
+The Custom ConfigSource implemented by `microprofile-config-keyvault` extension needs to connect to a real Azure Key Vault instance, follow steps below to create one.
 
 ### Logging into Azure
 
-Log into Azure and create a resource group for hosting different Azure services to be created.
+Sign in to Azure and create a resource group for hosting different Azure services to be created.
 
 ```
 az login
@@ -50,8 +49,7 @@ az group create \
 
 ### Creating Azure Key Vault
 
-Run the following commands to create an Azure Key Vault instance, add a few secrets, and export its uri as environment
-variables.
+Run the following commands to create an Azure Key Vault instance, add a few secrets, and export its uri as environment variables.
 
 ```
 KEY_VAULT_NAME=<unique-key-vault-name>
@@ -73,10 +71,10 @@ export AZURE_KEYVAULT_URL=$(az keyvault show \
   --resource-group "${RESOURCE_GROUP_NAME}" \
   --name "${KEY_VAULT_NAME}" \
   --query properties.vaultUri -o tsv)
+echo $AZURE_KEYVAULT_URL
 ```
 
-The values of environment variable `AZURE_KEYVAULT_URL` will be fed into config property `azure.keyvault.url`
-of `microprofile-config-keyvault` extension in order to set up the connection to the Azure Key Vault instance.
+Edit the file `src/main/resources/META-INF/microprofile-config.properties`. Uncomment all the lines. Make it so the value of the config property `azure.keyvault.url` is the value of `$AZURE_KEYVAULT_URL`.
 
 ## Running the sample
 
@@ -92,16 +90,16 @@ Open a new terminal and run the following commands to test the sample:
 
 ```
 # Get the value of secret "secret" stored in the Azure key vault. You should see `1234` in the response.
-curl http://localhost:8080/config/value/secret -X GET
+echo $(curl http://localhost:8080/config/value/secret -X GET)
 
 # Get the value of secret "anotherSecret" stored in the Azure key vault. You should see `5678` in the response.
-curl http://localhost:8080/config/value/anotherSecret -X GET
+echo $(curl http://localhost:8080/config/value/anotherSecret -X GET)
 
 # Get the names of secrets stored in the Azure key vault. You should see `["anotherSecret","secret"]` in the response.
-curl http://localhost:8080/config/propertyNames -X GET
+echo $(curl http://localhost:8080/config/propertyNames -X GET)
 
 # Get the name-value paris of secrets stored in the Azure key vault. You should see `{"anotherSecret":"5678","secret":"1234"}` in the response.
-curl http://localhost:8080/config/properties -X GET
+echo $(curl http://localhost:8080/config/properties -X GET)
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.
@@ -111,10 +109,10 @@ Press `Ctrl + C` to stop the sample once you complete the try and test.
 Run the following command to clean up the Azure resources created before:
 
 ```
+az keyvault purge \
+    --name "${KEY_VAULT_NAME}"
+
 az group delete \
     --name ${RESOURCE_GROUP_NAME} \
     --yes
-    
-az keyvault purge \
-    --name "${KEY_VAULT_NAME}"
 ```

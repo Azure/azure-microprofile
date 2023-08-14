@@ -19,7 +19,7 @@ By default, the sample depends on the development iteration version. To install 
 need to build it locally.
 
 ```
-# Switch to the root directory of Azure Extensions for MicroProfile.
+# Switch to the root directory of this repository.
 # For example, if you are in the directory of azure-microprofile/integration-tests/open-liberty-sample
 cd ../..
 
