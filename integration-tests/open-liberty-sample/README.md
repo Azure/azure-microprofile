@@ -109,9 +109,13 @@ Press `Ctrl + C` to stop the sample once you complete the try and test.
 Run the following command to clean up the Azure resources created before:
 
 ```
-az keyvault purge \
+az keyvault delete \
     --name "${KEY_VAULT_NAME}"
+az keyvault purge \
+    --name "${KEY_VAULT_NAME}" \
+    --no-wait
 az group delete \
     --name ${RESOURCE_GROUP_NAME} \
-    --yes
+    --yes \
+    --no-wait
 ```

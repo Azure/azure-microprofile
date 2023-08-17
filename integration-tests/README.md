@@ -78,10 +78,13 @@ mvn verify -Dazure.test=true
 Once you complete the test, run the following command to clean up the Azure resources used in the test:
 
 ```
+az keyvault delete \
+    --name "${KEY_VAULT_NAME}"
+az keyvault purge \
+    --name "${KEY_VAULT_NAME}" \
+    --no-wait
 az group delete \
     --name ${RESOURCE_GROUP_NAME} \
-    --yes
-
-az keyvault purge \
-    --name "${KEY_VAULT_NAME}"
+    --yes \
+    --no-wait
 ```
