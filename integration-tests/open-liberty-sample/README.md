@@ -74,7 +74,14 @@ export AZURE_KEYVAULT_URL=$(az keyvault show \
 echo $AZURE_KEYVAULT_URL
 ```
 
-Edit the file `src/main/resources/META-INF/microprofile-config.properties`. Uncomment all the lines. Make it so the value of the config property `azure.keyvault.url` is the value of `$AZURE_KEYVAULT_URL`.
+If you just run the sample in the same shell session without further manual configuration, just go ahead to section [Running the sample](#running-the-sample). Otherwise, if you prefer to run the sample in another shell session, you need to edit the file `src/main/resources/META-INF/microprofile-config.properties` to update the value of the config property `azure.keyvault.url` to the value of `$AZURE_KEYVAULT_URL`.
+
+* Open to edit the file `src/main/resources/META-INF/microprofile-config.properties`. 
+* Uncomment line 2. Make it so the value of the config property `azure.keyvault.url` is the value of `$AZURE_KEYVAULT_URL`.
+* You can also uncomment line 3 and line 4 which is optional.
+  * Line 3 is to cache the secrets fetched from Azure Key Vault locally by setting `true` as the value of config property `azure.keyvault.cache`.
+  * Line 4 is to config the time-to-live value (in milliseconds) for cache entries by setting config property `azure.keyvault.cache.ttl`. It only takes effect when `azure.keyvault.cache` is set to `true`.
+* Save the file.
 
 ## Running the sample
 
