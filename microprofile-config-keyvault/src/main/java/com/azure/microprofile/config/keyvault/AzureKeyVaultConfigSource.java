@@ -7,21 +7,45 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Custom ConfigSource for Azure Key Vault.
  */
 public class AzureKeyVaultConfigSource implements ConfigSource {
 
+    private static final Logger log = Logger.getLogger(AzureKeyVaultConfigSource.class.getName());
     private AzureKeyVaultOperation keyVaultOperation;
 
-    private boolean isKeyVaultEnabled = true;
+    private boolean isKeyVaultEnabled = false;
 
     /**
      * Default constructor.
      */
     public AzureKeyVaultConfigSource() {
-        // no op
+        this(null, getConfig());
+    }
+
+    /**
+     * Constructor with {@link AzureKeyVaultOperation} instance and {@link Config} instance.
+     *
+     * @param keyVaultOperation {@link AzureKeyVaultOperation} instance.
+     * @param config            {@link Config} instance.
+     */
+    public AzureKeyVaultConfigSource(AzureKeyVaultOperation keyVaultOperation, Config config) {
+        init(keyVaultOperation, config);
+    }
+
+    /**
+     * Get {@link Config} instance with default sources.
+     *
+     * @return {@link Config} instance.
+     */
+    static private Config getConfig() {
+        return ConfigProviderResolver.instance()
+                .getBuilder()
+                .addDefaultSources()
+                .build();
     }
 
     /**
@@ -44,13 +68,17 @@ public class AzureKeyVaultConfigSource implements ConfigSource {
      *      </ul>
      *  </li>
      * </ul>
+     *
+     * @param keyVaultOperation {@link AzureKeyVaultOperation} instance.
+     * @param config            {@link Config} instance.
      */
-    private void init() {
+    private void init(AzureKeyVaultOperation keyVaultOperation, Config config) {
         if (keyVaultOperation != null) {
+            this.keyVaultOperation = keyVaultOperation;
+            isKeyVaultEnabled = true;
             return;
         }
 
-        Config config = getConfig();
         String url = config.getOptionalValue("azure.keyvault.url", String.class).orElse("");
         isKeyVaultEnabled = !url.isEmpty();
 
@@ -62,23 +90,11 @@ public class AzureKeyVaultConfigSource implements ConfigSource {
         boolean cached = config.getOptionalValue("azure.keyvault.cache", Boolean.class).orElse(Boolean.FALSE);
         if (cached) {
             Long ttl = config.getOptionalValue("azure.keyvault.cache.ttl", Long.class).orElse(null);
-            keyVaultOperation = new CachedAzureKeyVaultOperation(url, ttl);
+            this.keyVaultOperation = new CachedAzureKeyVaultOperation(url, ttl);
         } else {
             String regex = config.getOptionalValue("azure.keyvault.secret-name-regex", String.class).orElse(null);
-            keyVaultOperation = new NoCacheAzureKeyVaultOperation(url, regex);
+            this.keyVaultOperation = new NoCacheAzureKeyVaultOperation(url, regex);
         }
-    }
-
-    /**
-     * Get {@link Config} instance with default sources.
-     *
-     * @return {@link Config} instance.
-     */
-    private Config getConfig() {
-        return ConfigProviderResolver.instance()
-                .getBuilder()
-                .addDefaultSources()
-                .build();
     }
 
     /**
@@ -88,7 +104,6 @@ public class AzureKeyVaultConfigSource implements ConfigSource {
      */
     @Override
     public Map<String, String> getProperties() {
-        init();
         return isKeyVaultEnabled ? keyVaultOperation.getProperties() : Collections.emptyMap();
     }
 
@@ -99,7 +114,6 @@ public class AzureKeyVaultConfigSource implements ConfigSource {
      */
     @Override
     public Set<String> getPropertyNames() {
-        init();
         return isKeyVaultEnabled ? keyVaultOperation.getPropertyNames() : Collections.emptySet();
     }
 
@@ -111,7 +125,6 @@ public class AzureKeyVaultConfigSource implements ConfigSource {
      */
     @Override
     public String getValue(String key) {
-        init();
         return isKeyVaultEnabled ? keyVaultOperation.getValue(key) : null;
     }
 
