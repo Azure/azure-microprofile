@@ -1,5 +1,6 @@
 package com.azure.microprofile.it.openliberty;
 
+import com.azure.microprofile.config.keyvault.AzureKeyVaultConfigSource;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -30,7 +31,7 @@ public class ConfigResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/propertyNames")
     public Set<String> getConfigPropertyNames() {
-        ConfigSource configSource = getConfigSource("AzureKeyVaultConfigSource");
+        ConfigSource configSource = getConfigSource(AzureKeyVaultConfigSource.class.getSimpleName());
         return configSource.getPropertyNames();
     }
 
@@ -38,7 +39,7 @@ public class ConfigResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/properties")
     public Map<String, String> getConfigProperties() {
-        ConfigSource configSource = getConfigSource("AzureKeyVaultConfigSource");
+        ConfigSource configSource = getConfigSource(AzureKeyVaultConfigSource.class.getSimpleName());
         return configSource.getProperties();
     }
 
