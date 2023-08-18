@@ -97,16 +97,16 @@ Open a new terminal and run the following commands to test the sample:
 
 ```
 # Get the value of secret "secret" stored in the Azure key vault. You should see `1234` in the response.
-echo $(curl http://localhost:8080/config/value/secret -X GET)
+echo $(curl -s http://localhost:8080/config/value/secret -X GET)
 
 # Get the value of secret "anotherSecret" stored in the Azure key vault. You should see `5678` in the response.
-echo $(curl http://localhost:8080/config/value/anotherSecret -X GET)
+echo $(curl -s http://localhost:8080/config/value/anotherSecret -X GET)
 
 # Get the names of secrets stored in the Azure key vault. You should see `["anotherSecret","secret"]` in the response.
-echo $(curl http://localhost:8080/config/propertyNames -X GET)
+echo $(curl -s http://localhost:8080/config/propertyNames -X GET)
 
 # Get the name-value paris of secrets stored in the Azure key vault. You should see `{"anotherSecret":"5678","secret":"1234"}` in the response.
-echo $(curl http://localhost:8080/config/properties -X GET)
+echo $(curl -s http://localhost:8080/config/properties -X GET)
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.
