@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * </ul>
  */
 class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
-    protected static final String DEFAULT_SECRET_NAME_REGEX = "^[0-9a-zA-Z-]+$";
+    private static final String DEFAULT_SECRET_NAME_REGEX = "^[0-9a-zA-Z-]+$";
     private static final Logger log = Logger.getLogger(NoCacheAzureKeyVaultOperation.class.getName());
     private final String secretNameRegex;
     private final SecretClient secretKeyVaultClient;

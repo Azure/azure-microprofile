@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * </ul>
  */
 class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
-    protected static final long DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS = 180000L; // 3 minutes
+    private static final long DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS = 180000L; // 3 minutes
     private static final Logger log = Logger.getLogger(CachedAzureKeyVaultOperation.class.getName());
     private final long cacheRefreshIntervalInMs;
     private final SecretClient secretKeyVaultClient;

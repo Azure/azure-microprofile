@@ -33,14 +33,14 @@ public class AzureKeyVaultConfigSource implements ConfigSource {
      *      If {@code azure.keyvault.cache} is set to {@code true}, then {@link CachedAzureKeyVaultOperation} will be used.
      *      <ul>
      *          <li>If {@code azure.keyvault.cache.ttl} is set, then it will be used as TTL for cache entries.</li>
-     *          <li>Otherwise, {@link CachedAzureKeyVaultOperation#DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS} will be used as TTL for cache entries.</li>
+     *          <li>Otherwise, CachedAzureKeyVaultOperation.DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS will be used as TTL for cache entries.</li>
      *      </ul>
      *  </li>
      *  <li>
      *      Otherwise, {@link NoCacheAzureKeyVaultOperation} will be used.
      *      <ul>
      *          <li>If {@code azure.keyvault.secret-name-regex} is set, then it will be used to filter secret names.</li>
-     *          <li>Otherwise, {@link NoCacheAzureKeyVaultOperation#DEFAULT_SECRET_NAME_REGEX} will be used to filter secret names.</li>
+     *          <li>Otherwise, NoCacheAzureKeyVaultOperation.DEFAULT_SECRET_NAME_REGEX will be used to filter secret names.</li>
      *      </ul>
      *  </li>
      * </ul>
