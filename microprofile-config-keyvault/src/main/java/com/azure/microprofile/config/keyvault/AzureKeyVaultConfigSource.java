@@ -55,6 +55,7 @@ public class AzureKeyVaultConfigSource implements ConfigSource {
         isKeyVaultEnabled = !url.isEmpty();
 
         if (!isKeyVaultEnabled) {
+            log.warning("Azure Key Vault ConfigSource is not enabled. Please set 'azure.keyvault.url' in your configuration.");
             return;
         }
 
