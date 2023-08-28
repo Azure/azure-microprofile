@@ -38,7 +38,8 @@ mvn -B clean install -Dazure.test=true
 
 # Delete the key vault
 az keyvault delete \
-    --name "${KEY_VAULT_NAME}"
+    --name "${KEY_VAULT_NAME}" \
+    --resource-group "${RESOURCE_GROUP_NAME}"
 
 # Purge the key vault
 az keyvault purge \

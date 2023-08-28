@@ -79,7 +79,8 @@ Once you complete the test, run the following command to clean up the Azure reso
 
 ```
 az keyvault delete \
-    --name "${KEY_VAULT_NAME}"
+    --name "${KEY_VAULT_NAME}" \
+    --resource-group "${RESOURCE_GROUP_NAME}"
 az keyvault purge \
     --name "${KEY_VAULT_NAME}" \
     --no-wait
