@@ -91,6 +91,12 @@ Now you can launch the sample with:
 mvn package quarkus:run
 ```
 
+Note: You may see the following similar error message in the console output, just ignore it. It is because the Azure Key Vault custom ConfigSource will try the different authentication methods until it's successful.
+
+```
+[ERROR] WorkloadIdentityCredential authentication unavailable. The workload options are not fully configured. See the troubleshooting guide for more information. https://aka.ms/azsdk/java/identity/workloadidentitycredential/troubleshoot
+```
+
 ## Testing the sample
 
 Open a new terminal and run the following commands to test the sample:
