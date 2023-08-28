@@ -75,6 +75,11 @@
                         <goals>
                             <goal>start</goal>
                         </goals>
+                        <configuration>
+                            <!-- Wait until the app is started. See https://github.com/OpenLiberty/ci.maven/blob/main/docs/start.md#start -->
+                            <applications>${project.artifactId}</applications>
+                            <verifyTimeout>120</verifyTimeout>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>stop-server</id>
