@@ -18,7 +18,7 @@
     
     <properties>
         <microprofile.version>6.0</microprofile.version>
-        <azure-sdk-bom.version>1.2.15</azure-sdk-bom.version>
+        <azure-sdk-bom.version>1.2.16</azure-sdk-bom.version>
         <junit-bom.version>5.10.0</junit-bom.version>
         <mockito-bom.version>5.5.0</mockito-bom.version>
     </properties>
