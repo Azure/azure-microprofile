@@ -1,0 +1,21 @@
+<server description="defaultServer">
+    
+    <featureManager>
+        <feature>restfulWS-3.1</feature>
+        <feature>jsonb-3.0</feature>
+        <feature>mpConfig-3.0</feature>
+    </featureManager>
+    
+    <applicationManager autoExpand="true"/>
+    
+    <mpMetrics authentication="false"/>
+    
+    <variable name="default.http.port" defaultValue="9080"/>
+    <variable name="default.https.port" defaultValue="9443"/>
+    <variable name="app.context.root" defaultValue="/"/>
+    
+    <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+    
+    <webApplication location="microprofile-integration-tests-open-liberty-sample.war"
+                    contextRoot="${app.context.root}"/>
+</server>

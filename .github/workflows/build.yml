@@ -1,0 +1,83 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - '.gitignore'
+      - 'LICENSE'
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - 'LICENSE'
+      - '*.md'
+  workflow_dispatch:
+  schedule:
+    # Runs every Monday at 1:00 PM (GMT +08:00)
+    - cron: '0 5 * * 1'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+# In order to run tests against the real Azure services, you need to create a GitHub environment "ci" and add AZURE_CLIENT_ID / AZURE_TENANT_ID / AZURE_SUBSCRIPTION_ID as its variables to enable OIDC authentication with Azure.
+# See https://aka.ms/config-federated-identity-on-uami for more information on how to configure federated identity credential on a user-assigned managed identity (uami) and retrieve values for these required GitHub variables.
+# Besides, the uami needs to be granted the "Contributor" role on the subscription to deploy and delete Azure resources for testing.
+
+jobs:
+  build:
+    permissions:
+      id-token: write
+    environment: ci
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+    name: Build on ${{ matrix.os.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: 
+          - { name: 'windows-latest', order: 1 }
+          - { name: 'macos-latest', order: 2 }
+          - { name: 'ubuntu-latest', order: 3 }
+    runs-on: ${{ matrix.os.name }}
+    steps:
+      - name: Set other environment variables 
+        run: |
+          RESOURCE_GROUP_NAME=mp${{ github.run_id }}${{ github.run_number }}${{ matrix.os.order }}
+          KEY_VAULT_NAME=kv${{ github.run_id }}${{ github.run_number }}${{ matrix.os.order }}
+          echo "RESOURCE_GROUP_NAME is $RESOURCE_GROUP_NAME"
+          echo "KEY_VAULT_NAME is $KEY_VAULT_NAME"
+          echo "RESOURCE_GROUP_NAME=${RESOURCE_GROUP_NAME}" >> $GITHUB_ENV
+          echo "KEY_VAULT_NAME=${KEY_VAULT_NAME}" >> $GITHUB_ENV
+
+      - name: Prepare git
+        run: git config --global core.autocrlf false
+        if: startsWith(matrix.os.name, 'windows')
+
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: microsoft
+          java-version: 11
+          cache: 'maven'
+
+      - name: Az CLI login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+        if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
+
+      - name: Build with Maven and run tests against Azure resources
+        run: .github/build-with-azure-resources.sh
+        if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}

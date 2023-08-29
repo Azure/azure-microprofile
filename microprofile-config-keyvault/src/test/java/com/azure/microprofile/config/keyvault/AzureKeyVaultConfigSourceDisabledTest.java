@@ -1,5 +1,6 @@
 package com.azure.microprofile.config.keyvault;
 
+import org.eclipse.microprofile.config.Config;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,10 @@ class AzureKeyVaultConfigSourceDisabledTest {
 
     @Mock
     AzureKeyVaultOperation keyVaultOperation;
+
+    @Mock
+    Config config;
+
     @InjectMocks
     AzureKeyVaultConfigSource azureKeyVaultConfigSource;
 
