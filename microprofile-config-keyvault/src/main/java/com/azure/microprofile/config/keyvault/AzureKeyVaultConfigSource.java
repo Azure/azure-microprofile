@@ -27,12 +27,12 @@ public class AzureKeyVaultConfigSource implements ConfigSource {
     }
 
     /**
-     * Constructor with {@link AzureKeyVaultOperation} instance and {@link Config} instance.
+     * Constructor with {@link AzureKeyVaultOperation} instance and {@link Config} instance. This constructor is used for testing.
      *
      * @param keyVaultOperation {@link AzureKeyVaultOperation} instance.
      * @param config            {@link Config} instance.
      */
-    public AzureKeyVaultConfigSource(AzureKeyVaultOperation keyVaultOperation, Config config) {
+    AzureKeyVaultConfigSource(AzureKeyVaultOperation keyVaultOperation, Config config) {
         init(keyVaultOperation, config);
     }
 
