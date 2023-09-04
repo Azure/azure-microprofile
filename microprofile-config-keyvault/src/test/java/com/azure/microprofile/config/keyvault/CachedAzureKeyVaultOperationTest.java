@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -34,8 +33,6 @@ class CachedAzureKeyVaultOperationTest {
     @Mock
     private SecretClient secretClient;
 
-    private KeyVaultSecret keyVaultSecret = new KeyVaultSecret(SECRET_NAME, SECRET_VALUE);
-
     @Mock
     private PagedIterable<SecretProperties> secretPropertiesPagedIterable;
 
@@ -48,17 +45,13 @@ class CachedAzureKeyVaultOperationTest {
 
     @Test
     void testGetProperties() throws NoSuchFieldException, IllegalAccessException, InterruptedException {
-        whenStubbing();
+        whenStubbing(new KeyVaultSecret(SECRET_NAME, SECRET_VALUE));
         Map<String, String> properties = operation.getProperties();
         assertEquals(Collections.singletonMap(SECRET_NAME, SECRET_VALUE), properties);
         verifyInvocation(1);
 
-        // Update the secret value
-        Field valueField = KeyVaultSecret.class.getDeclaredField("value");
-        valueField.setAccessible(true);
-        valueField.set(keyVaultSecret, SECRET_VALUE_UPDATED);
-
-        // Second call before cache expires should not update the cache and return the same value
+        // Second call with updated secret value before cache expires should not update the cache and return the original value
+        whenStubbing(new KeyVaultSecret(SECRET_NAME, SECRET_VALUE_UPDATED));
         properties = operation.getProperties();
         assertEquals(Collections.singletonMap(SECRET_NAME, SECRET_VALUE), properties);
         verifyInvocation(1);
@@ -66,8 +59,8 @@ class CachedAzureKeyVaultOperationTest {
         // Wait for cache to expire
         Thread.sleep(CACHE_REFRESH_INTERVAL);
 
-        // Third call after cache expires should update the cache and return the updated value
-        whenStubbing();
+        // Third call with updated secret value after cache expires should update the cache and return the updated value
+        whenStubbing(new KeyVaultSecret(SECRET_NAME, SECRET_VALUE_UPDATED));
         properties = operation.getProperties();
         assertEquals(Collections.singletonMap(SECRET_NAME, SECRET_VALUE_UPDATED), properties);
         verifyInvocation(2);
@@ -75,18 +68,13 @@ class CachedAzureKeyVaultOperationTest {
 
     @Test
     void testGetPropertyNames() throws NoSuchFieldException, IllegalAccessException, InterruptedException {
-        whenStubbing();
+        whenStubbing(new KeyVaultSecret(SECRET_NAME, SECRET_VALUE));
         Set<String> propertyNames = operation.getPropertyNames();
         assertEquals(Collections.singleton(SECRET_NAME), propertyNames);
         verifyInvocation(1);
 
-        // Update the secret properties
-        KeyVaultSecret updated = new KeyVaultSecret(SECRET_NAME_UPDATED, SECRET_VALUE_UPDATED);
-        Field propertiesField = KeyVaultSecret.class.getDeclaredField("properties");
-        propertiesField.setAccessible(true);
-        propertiesField.set(keyVaultSecret, updated.getProperties());
-
-        // Second call before cache expires should not update the cache and return the same property name
+        // Second call with updated secret name before cache expires should not update the cache and return the original property name
+        whenStubbing(new KeyVaultSecret(SECRET_NAME_UPDATED, SECRET_VALUE_UPDATED));
         propertyNames = operation.getPropertyNames();
         assertEquals(Collections.singleton(SECRET_NAME), propertyNames);
         verifyInvocation(1);
@@ -94,8 +82,8 @@ class CachedAzureKeyVaultOperationTest {
         // Wait for cache to expire
         Thread.sleep(CACHE_REFRESH_INTERVAL);
 
-        // Third call after cache expires should update the cache and return the updated property name
-        whenStubbing();
+        // Third call with updated secret name after cache expires should update the cache and return the updated property name
+        whenStubbing(new KeyVaultSecret(SECRET_NAME_UPDATED, SECRET_VALUE_UPDATED));
         propertyNames = operation.getPropertyNames();
         assertEquals(Collections.singleton(SECRET_NAME_UPDATED), propertyNames);
         verify(secretClient, times(2)).listPropertiesOfSecrets();
@@ -106,17 +94,13 @@ class CachedAzureKeyVaultOperationTest {
 
     @Test
     void testGetValue() throws NoSuchFieldException, IllegalAccessException, InterruptedException {
-        whenStubbing();
+        whenStubbing(new KeyVaultSecret(SECRET_NAME, SECRET_VALUE));
         String value = operation.getValue(SECRET_NAME);
         assertEquals(SECRET_VALUE, value);
         verifyInvocation(1);
 
-        // Update the secret value
-        Field valueField = KeyVaultSecret.class.getDeclaredField("value");
-        valueField.setAccessible(true);
-        valueField.set(keyVaultSecret, SECRET_VALUE_UPDATED);
-
-        // Second call before cache expires should not update the cache and return the same value
+        // Second call with updated secret value before cache expires should not update the cache and return the original value
+        whenStubbing(new KeyVaultSecret(SECRET_NAME, SECRET_VALUE_UPDATED));
         value = operation.getValue(SECRET_NAME);
         assertEquals(SECRET_VALUE, value);
         verifyInvocation(1);
@@ -124,14 +108,14 @@ class CachedAzureKeyVaultOperationTest {
         // Wait for cache to expire
         Thread.sleep(CACHE_REFRESH_INTERVAL);
 
-        // Third call after cache expires should update the cache and return the updated value
-        whenStubbing();
+        // Third call with updated secret value after cache expires should update the cache and return the updated value
+        whenStubbing(new KeyVaultSecret(SECRET_NAME, SECRET_VALUE_UPDATED));
         value = operation.getValue(SECRET_NAME);
         assertEquals(SECRET_VALUE_UPDATED, value);
         verifyInvocation(2);
     }
 
-    private void whenStubbing() {
+    private void whenStubbing(KeyVaultSecret keyVaultSecret) {
         when(secretPropertiesPagedIterable.stream()).thenReturn(Stream.of(keyVaultSecret.getProperties()));
         when(secretClient.listPropertiesOfSecrets()).thenReturn(secretPropertiesPagedIterable);
         when(secretClient.getSecret(keyVaultSecret.getName())).thenReturn(keyVaultSecret);
