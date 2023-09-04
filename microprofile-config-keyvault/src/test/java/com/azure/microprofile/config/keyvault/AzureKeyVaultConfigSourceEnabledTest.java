@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.microprofile.config.keyvault;
 
 import org.eclipse.microprofile.config.Config;
@@ -23,7 +26,7 @@ class AzureKeyVaultConfigSourceEnabledTest {
 
     @Mock
     Config config;
-    
+
     @InjectMocks
     AzureKeyVaultConfigSource azureKeyVaultConfigSource;
 
