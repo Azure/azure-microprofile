@@ -12,5 +12,7 @@ module com.azure.microprofile.config.keyvault {
     requires com.azure.security.keyvault.secrets;
     requires java.logging;
 
+    exports com.azure.microprofile.config.keyvault;
+
     provides org.eclipse.microprofile.config.spi.ConfigSource with com.azure.microprofile.config.keyvault.AzureKeyVaultConfigSource;
 }
