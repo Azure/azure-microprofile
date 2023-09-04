@@ -7,13 +7,13 @@
     <parent>
         <groupId>com.azure</groupId>
         <artifactId>microprofile-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
     
     <groupId>com.azure</groupId>
     <artifactId>microprofile-config-keyvault</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Azure extension for MicroProfile :: Config :: KeyVault</name>
     <description>Azure extension for MicroProfile KeyVault Custom ConfigSource.</description>
     
