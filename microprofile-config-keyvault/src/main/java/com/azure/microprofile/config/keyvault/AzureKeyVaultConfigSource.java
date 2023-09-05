@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.microprofile.config.keyvault;
 
 import org.eclipse.microprofile.config.Config;
@@ -12,7 +15,7 @@ import java.util.logging.Logger;
 /**
  * Custom ConfigSource for Azure Key Vault.
  */
-public class AzureKeyVaultConfigSource implements ConfigSource {
+public final class AzureKeyVaultConfigSource implements ConfigSource {
 
     private static final Logger log = Logger.getLogger(AzureKeyVaultConfigSource.class.getName());
     private AzureKeyVaultOperation keyVaultOperation;
