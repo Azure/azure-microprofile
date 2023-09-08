@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>com.azure.microprofile</groupId>
-    <artifactId>integration-tests</artifactId>
+    <artifactId>azure-microprofile-integration-tests</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>Azure extensions for MicroProfile :: Integration Tests</name>
@@ -28,7 +28,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.azure.microprofile</groupId>
-                <artifactId>bom</artifactId>
+                <artifactId>azure-microprofile-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -45,7 +45,7 @@
     <dependencies>
         <dependency>
             <groupId>com.azure.microprofile</groupId>
-            <artifactId>config-keyvault</artifactId>
+            <artifactId>azure-microprofile-config-keyvault</artifactId>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>

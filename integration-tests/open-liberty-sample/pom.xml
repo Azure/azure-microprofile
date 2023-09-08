@@ -6,13 +6,13 @@
     
     <parent>
         <groupId>com.azure.microprofile</groupId>
-        <artifactId>integration-tests</artifactId>
+        <artifactId>azure-microprofile-integration-tests</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
     <groupId>com.azure.microprofile</groupId>
-    <artifactId>integration-tests-open-liberty-sample</artifactId>
+    <artifactId>azure-microprofile-integration-tests-open-liberty-sample</artifactId>
     <version>1.0.0</version>
     <name>Azure extensions for MicroProfile :: Integration Tests :: Open Liberty Sample</name>
     <packaging>war</packaging>

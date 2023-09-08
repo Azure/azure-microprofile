@@ -6,13 +6,13 @@
     
     <parent>
         <groupId>com.azure.microprofile</groupId>
-        <artifactId>integration-tests</artifactId>
+        <artifactId>azure-microprofile-integration-tests</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
     <groupId>com.azure.microprofile</groupId>
-    <artifactId>integration-tests-quarkus-sample</artifactId>
+    <artifactId>azure-microprofile-integration-tests-quarkus-sample</artifactId>
     <version>1.0.0</version>
     <name>Azure extensions for MicroProfile :: Integration Tests :: Quarkus Sample</name>
     

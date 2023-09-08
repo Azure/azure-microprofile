@@ -6,13 +6,13 @@
     
     <parent>
         <groupId>com.azure.microprofile</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>azure-microprofile-parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
     
     <groupId>com.azure.microprofile</groupId>
-    <artifactId>config-keyvault</artifactId>
+    <artifactId>azure-microprofile-config-keyvault</artifactId>
     <version>1.0.0</version>
     <name>Azure extension for MicroProfile :: Config :: KeyVault</name>
     <description>Azure extension for MicroProfile KeyVault Custom ConfigSource.</description>
@@ -21,7 +21,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.azure.microprofile</groupId>
-                <artifactId>bom</artifactId>
+                <artifactId>azure-microprofile-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
