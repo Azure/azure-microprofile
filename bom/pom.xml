@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>com.azure</groupId>
-        <artifactId>microprofile-parent</artifactId>
+        <groupId>com.azure.microprofile</groupId>
+        <artifactId>parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
     
-    <groupId>com.azure</groupId>
-    <artifactId>microprofile-bom</artifactId>
+    <groupId>com.azure.microprofile</groupId>
+    <artifactId>bom</artifactId>
     <name>Azure extensions for MicroProfile :: BOM</name>
     <version>1.0.0</version>
     <packaging>pom</packaging>
@@ -63,8 +63,8 @@
             
             <!-- Azure extensions for MicroProfile -->
             <dependency>
-                <groupId>com.azure</groupId>
-                <artifactId>microprofile-config-keyvault</artifactId>
+                <groupId>com.azure.microprofile</groupId>
+                <artifactId>config-keyvault</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

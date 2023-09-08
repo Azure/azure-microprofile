@@ -3,6 +3,7 @@
 
 package com.azure.microprofile.config.keyvault;
 
+import com.azure.core.util.logging.ClientLogger;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -10,14 +11,13 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * Custom ConfigSource for Azure Key Vault.
  */
 public final class AzureKeyVaultConfigSource implements ConfigSource {
 
-    private static final Logger log = Logger.getLogger(AzureKeyVaultConfigSource.class.getName());
+    private static final ClientLogger logger = new ClientLogger(AzureKeyVaultConfigSource.class);
     private AzureKeyVaultOperation keyVaultOperation;
 
     private boolean isKeyVaultEnabled = false;
@@ -86,7 +86,7 @@ public final class AzureKeyVaultConfigSource implements ConfigSource {
         isKeyVaultEnabled = !url.isEmpty();
 
         if (!isKeyVaultEnabled) {
-            log.warning("Azure Key Vault ConfigSource is not enabled. Please set 'azure.keyvault.url' in your configuration.");
+            logger.warning("Azure Key Vault ConfigSource is not enabled. Please set 'azure.keyvault.url' in your configuration.");
             return;
         }
 
