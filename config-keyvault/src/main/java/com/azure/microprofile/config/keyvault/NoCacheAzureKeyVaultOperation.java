@@ -22,7 +22,7 @@ import java.util.*;
  */
 class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
     private static final String DEFAULT_SECRET_NAME_REGEX = "^[0-9a-zA-Z-]+$";
-    private static final ClientLogger logger = new ClientLogger(NoCacheAzureKeyVaultOperation.class);
+    private static final ClientLogger LOGGER = new ClientLogger(NoCacheAzureKeyVaultOperation.class);
     private final String secretNameRegex;
     private final SecretClient secretKeyVaultClient;
 
@@ -87,7 +87,7 @@ class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
         // Check if secretName is valid using regex secretNameRegex
         // The goal is to bypass unnecessary calls to Azure Key Vault especially there are lots of properties from other sources
         if (!secretName.matches(secretNameRegex)) {
-            logger.log(LogLevel.VERBOSE, () -> MessageFormat.format("getValue() failed with exception: secretName {0} does not match regex {1}",
+            LOGGER.log(LogLevel.VERBOSE, () -> MessageFormat.format("getValue() failed with exception: secretName {0} does not match regex {1}",
                     secretName, secretNameRegex));
             return null;
         }
@@ -95,7 +95,7 @@ class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
         try {
             return secretKeyVaultClient.getSecret(secretName).getValue();
         } catch (Exception e) {
-            logger.log(LogLevel.INFORMATIONAL, () -> "getValue() failed with exception: " + e.getMessage());
+            LOGGER.log(LogLevel.INFORMATIONAL, () -> "getValue() failed with exception: " + e.getMessage());
             return null;
         }
     }

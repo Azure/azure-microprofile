@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public final class AzureKeyVaultConfigSource implements ConfigSource {
 
-    private static final ClientLogger logger = new ClientLogger(AzureKeyVaultConfigSource.class);
+    private static final ClientLogger LOGGER = new ClientLogger(AzureKeyVaultConfigSource.class);
     private AzureKeyVaultOperation keyVaultOperation;
 
     private boolean isKeyVaultEnabled = false;
@@ -86,7 +86,7 @@ public final class AzureKeyVaultConfigSource implements ConfigSource {
         isKeyVaultEnabled = !url.isEmpty();
 
         if (!isKeyVaultEnabled) {
-            logger.warning("Azure Key Vault ConfigSource is not enabled. Please set 'azure.keyvault.url' in your configuration.");
+            LOGGER.warning("Azure Key Vault ConfigSource is not enabled. Please set 'azure.keyvault.url' in your configuration.");
             return;
         }
 

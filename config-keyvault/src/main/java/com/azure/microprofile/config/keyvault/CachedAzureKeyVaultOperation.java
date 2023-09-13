@@ -28,7 +28,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
     private static final long DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS = 180000L; // 3 minutes
-    private static final ClientLogger logger = new ClientLogger(CachedAzureKeyVaultOperation.class);
+    private static final ClientLogger LOGGER = new ClientLogger(CachedAzureKeyVaultOperation.class);
     private final long cacheRefreshIntervalInMs;
     private final SecretClient secretKeyVaultClient;
 
@@ -135,7 +135,7 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
                         .map(SecretProperties::getName)
                         .forEach(key -> propertiesMap.put(key, secretKeyVaultClient.getSecret(key).getValue()));
                 lastUpdateTime.set(System.currentTimeMillis());
-                logger.log(LogLevel.VERBOSE, () -> "createOrUpdateHashMap() updated the cache at " + DateFormat.getDateTimeInstance().format(lastUpdateTime.get()));
+                LOGGER.log(LogLevel.VERBOSE, () -> "createOrUpdateHashMap() updated the cache at " + DateFormat.getDateTimeInstance().format(lastUpdateTime.get()));
             }
         } finally {
             rwLock.writeLock().unlock();
