@@ -7,7 +7,7 @@
     <groupId>com.azure.microprofile</groupId>
     <artifactId>azure-microprofile-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-beta.1</version>
     
     <name>Azure extensions for MicroProfile</name>
     <description>Azure extensions for MicroProfile.</description>
