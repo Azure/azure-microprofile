@@ -3,6 +3,8 @@
 
 package com.azure.microprofile.config.keyvault;
 
+import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.logging.LogLevel;
 import com.azure.security.keyvault.secrets.SecretClient;
 import com.azure.security.keyvault.secrets.models.SecretProperties;
 
@@ -15,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.logging.Logger;
 
 /**
  * This class is used to fetch and cache the secrets from Azure Key Vault.
@@ -27,7 +28,7 @@ import java.util.logging.Logger;
  */
 class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
     private static final long DEFAULT_CACHE_REFRESH_INTERVAL_IN_MS = 180000L; // 3 minutes
-    private static final Logger log = Logger.getLogger(CachedAzureKeyVaultOperation.class.getName());
+    private static final ClientLogger LOGGER = new ClientLogger(CachedAzureKeyVaultOperation.class);
     private final long cacheRefreshIntervalInMs;
     private final SecretClient secretKeyVaultClient;
 
@@ -134,7 +135,7 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
                         .map(SecretProperties::getName)
                         .forEach(key -> propertiesMap.put(key, secretKeyVaultClient.getSecret(key).getValue()));
                 lastUpdateTime.set(System.currentTimeMillis());
-                log.fine(() -> "createOrUpdateHashMap() updated the cache at " + DateFormat.getDateTimeInstance().format(lastUpdateTime.get()));
+                LOGGER.log(LogLevel.VERBOSE, () -> "createOrUpdateHashMap() updated the cache at " + DateFormat.getDateTimeInstance().format(lastUpdateTime.get()));
             }
         } finally {
             rwLock.writeLock().unlock();

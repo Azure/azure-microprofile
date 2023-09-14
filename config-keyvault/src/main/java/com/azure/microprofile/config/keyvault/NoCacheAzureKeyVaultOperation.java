@@ -3,12 +3,13 @@
 
 package com.azure.microprofile.config.keyvault;
 
+import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.logging.LogLevel;
 import com.azure.security.keyvault.secrets.SecretClient;
 import com.azure.security.keyvault.secrets.models.SecretProperties;
 
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * This class is used to fetch the secrets from Azure Key Vault.
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  */
 class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
     private static final String DEFAULT_SECRET_NAME_REGEX = "^[0-9a-zA-Z-]+$";
-    private static final Logger log = Logger.getLogger(NoCacheAzureKeyVaultOperation.class.getName());
+    private static final ClientLogger LOGGER = new ClientLogger(NoCacheAzureKeyVaultOperation.class);
     private final String secretNameRegex;
     private final SecretClient secretKeyVaultClient;
 
@@ -86,7 +87,7 @@ class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
         // Check if secretName is valid using regex secretNameRegex
         // The goal is to bypass unnecessary calls to Azure Key Vault especially there are lots of properties from other sources
         if (!secretName.matches(secretNameRegex)) {
-            log.fine(() -> MessageFormat.format("getValue() failed with exception: secretName {0} does not match regex {1}",
+            LOGGER.log(LogLevel.VERBOSE, () -> MessageFormat.format("getValue() failed with exception: secretName {0} does not match regex {1}",
                     secretName, secretNameRegex));
             return null;
         }
@@ -94,7 +95,7 @@ class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
         try {
             return secretKeyVaultClient.getSecret(secretName).getValue();
         } catch (Exception e) {
-            log.info(() -> "getValue() failed with exception: " + e.getMessage());
+            LOGGER.log(LogLevel.INFORMATIONAL, () -> "getValue() failed with exception: " + e.getMessage());
             return null;
         }
     }

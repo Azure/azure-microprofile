@@ -3,15 +3,15 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.azure</groupId>
-    <artifactId>microprofile-all</artifactId>
+    <groupId>com.azure.microprofile</groupId>
+    <artifactId>azure-microprofile-all</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version> <!-- Need not change for every release-->
     
     <modules>
         <module>parent</module>
         <module>bom</module>
-        <module>microprofile-config-keyvault</module>
+        <module>config-keyvault</module>
     </modules>
     <profiles>
         <profile>

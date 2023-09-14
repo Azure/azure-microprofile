@@ -7,10 +7,8 @@
 
 module com.azure.microprofile.config.keyvault {
     requires microprofile.config.api;
-    requires com.azure.core;
     requires com.azure.identity;
-    requires com.azure.security.keyvault.secrets;
-    requires java.logging;
+    requires transitive com.azure.security.keyvault.secrets;
 
     exports com.azure.microprofile.config.keyvault;
 

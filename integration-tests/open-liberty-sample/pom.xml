@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>com.azure</groupId>
-        <artifactId>microprofile-integration-tests</artifactId>
-        <version>1.0.0</version>
+        <groupId>com.azure.microprofile</groupId>
+        <artifactId>azure-microprofile-integration-tests</artifactId>
+        <version>1.0.0-beta.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>com.azure</groupId>
-    <artifactId>microprofile-integration-tests-open-liberty-sample</artifactId>
-    <version>1.0.0</version>
+    <groupId>com.azure.microprofile</groupId>
+    <artifactId>azure-microprofile-integration-tests-open-liberty-sample</artifactId>
+    <version>1.0.0-beta.1</version>
     <name>Azure extensions for MicroProfile :: Integration Tests :: Open Liberty Sample</name>
     <packaging>war</packaging>
     
