@@ -14,8 +14,8 @@
     <groupId>com.azure.microprofile</groupId>
     <artifactId>azure-microprofile-config-keyvault</artifactId>
     <version>1.0.0-beta.1</version>
-    <name>Azure extension for MicroProfile :: Config :: KeyVault</name>
-    <description>Azure extension for MicroProfile KeyVault Custom ConfigSource.</description>
+    <name>Azure extension for MicroProfile :: Config :: Key Vault</name>
+    <description>Azure extension for MicroProfile Key Vault Custom ConfigSource.</description>
     
     <dependencyManagement>
         <dependencies>
