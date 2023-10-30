@@ -6,7 +6,7 @@
     
     <groupId>com.azure.microprofile</groupId>
     <artifactId>azure-microprofile-integration-tests</artifactId>
-    <version>1.0.0-beta.2</version>
+    <version>1.0.0</version> <!-- Need not change for every release-->
     <packaging>pom</packaging>
     <name>Azure extensions for MicroProfile :: Integration Tests</name>
     
@@ -22,6 +22,7 @@
         <jdk.min.version>${maven.compiler.source}</jdk.min.version>
         <insecure.repositories>ERROR</insecure.repositories>
         <rest-assured.version>5.3.2</rest-assured.version>
+        <azure-microprofile-bom.version>1.0.0-beta.2</azure-microprofile-bom.version>
     </properties>
     
     <dependencyManagement>
@@ -29,7 +30,7 @@
             <dependency>
                 <groupId>com.azure.microprofile</groupId>
                 <artifactId>azure-microprofile-bom</artifactId>
-                <version>${project.version}</version>
+                <version>${azure-microprofile-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
