@@ -40,7 +40,6 @@ If you want to use the release version, you need to update the version of **azur
    1. Open to edit the **pom.xml** file in your favorite editor and update the version of **azure-microprofile-bom**, e.g., `<azure-microprofile-bom.version>1.0.0-beta.1</azure-microprofile-bom.version>`.
    1. Save the changes and close the editor.
 1. Switch to the directory of **open-liberty-sample**: `cd open-liberty-sample`.
-```
 
 ## Preparing the Azure services
 
