@@ -18,7 +18,7 @@
 
     <name>Azure extension for MicroProfile :: Config :: Key Vault</name>
     <description>Azure extension for MicroProfile Key Vault Custom ConfigSource.</description>
-    <url>https://docs.microsoft.com/java/azure/microprofile</url>
+    <url>https://aka.ms/java/ee</url>
 
     <scm>
         <url>https://github.com/azure/azure-microprofile</url>
