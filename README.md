@@ -1,6 +1,7 @@
 # Azure Extensions for MicroProfile
 
 [![Build](https://github.com/Azure/azure-microprofile/workflows/Build/badge.svg?branch=main)](https://github.com/Azure/azure-microprofile/actions?query=workflow%3ABuild)
+[![Central](https://img.shields.io/maven-central/v/com.azure.microprofile/azure-microprofile-parent?color=green)](https://central.sonatype.com/artifact/com.azure.microprofile/azure-microprofile-parent)
 
 This repository hosts Azure extensions for [MicroProfile](https://microprofile.io/), which are implemented using different Azure services.
 

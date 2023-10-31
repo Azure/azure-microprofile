@@ -7,15 +7,22 @@
     <parent>
         <groupId>com.azure.microprofile</groupId>
         <artifactId>azure-microprofile-parent</artifactId>
-        <version>1.0.0-beta.1</version>
+        <version>1.0.0-beta.2</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
     
     <groupId>com.azure.microprofile</groupId>
     <artifactId>azure-microprofile-config-keyvault</artifactId>
-    <version>1.0.0-beta.1</version>
+    <version>1.0.0-beta.2</version>
+    <packaging>jar</packaging>
+
     <name>Azure extension for MicroProfile :: Config :: Key Vault</name>
     <description>Azure extension for MicroProfile Key Vault Custom ConfigSource.</description>
+    <url>https://aka.ms/java/ee</url>
+
+    <scm>
+        <url>https://github.com/azure/azure-microprofile</url>
+    </scm>
     
     <dependencyManagement>
         <dependencies>

@@ -2,9 +2,14 @@
 
 This is the integration test for testing all Azure Extensions for MicroProfile from REST endpoints.
 
-## Installing dependencies locally in development iteration
+## Installing dependencies
 
-You need to install Azure Extensions for MicroProfile locally before running the test.
+Firstly, you need to make sure the right version of dependencies are installed.
+
+### Use development iteration version
+
+By default, the integration tests depend on the development iteration version. To install the development iteration version, you
+need to build it locally.
 
 ```
 # Switch to the root directory of Azure Extensions for MicroProfile.
@@ -16,6 +21,17 @@ mvn clean install -DskipTests
 
 # Switch back to the directory of integration-tests
 cd integration-tests
+```
+
+### Use release version
+
+If you want to use the release version, you need to update the version of **azure-microprofile-bom** in the [`pom.xml`](https://github.com/Azure/azure-microprofile/blob/main/integration-tests/pom.xml#L25) file.
+
+1. Find out the available release version of the Azure MicroProfile extensions from [releases](https://github.com/Azure/azure-microprofile/releases), for example, `1.0.0-beta.1`.
+1. Update the **azure-microprofile-bom** in the [`pom.xml`](https://github.com/Azure/azure-microprofile/blob/main/integration-tests/pom.xml#L25) file to your selected version, for example, `1.0.0-beta.1`.
+   1. Make sure you are in the directory of **azure-microprofile/integration-tests**.
+   1. Open to edit the **pom.xml** file in your favorite editor and update the version of **azure-microprofile-bom**, e.g., `<azure-microprofile-bom.version>1.0.0-beta.1</azure-microprofile-bom.version>`.
+   1. Save the changes and close the editor.
 ```
 
 ## Running the test with Azure services
