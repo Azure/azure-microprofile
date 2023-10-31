@@ -32,7 +32,6 @@ If you want to use the release version, you need to update the version of **azur
    1. Make sure you are in the directory of **azure-microprofile/integration-tests**.
    1. Open to edit the **pom.xml** file in your favorite editor and update the version of **azure-microprofile-bom**, e.g., `<azure-microprofile-bom.version>1.0.0-beta.1</azure-microprofile-bom.version>`.
    1. Save the changes and close the editor.
-```
 
 ## Running the test with Azure services
 
