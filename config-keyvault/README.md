@@ -7,7 +7,7 @@ This library creates a config source (using the MicroProfile Config API) for Azu
 The only required property to configure the library is `azure.keyvault.url`, which is the URL of the Azure Key Vault instance. Here are all supported properties:
 
 Property name | Description | Type | Default value | Required
---- | --- | --- | ---
+--- | --- | --- | --- | ---
 azure.keyvault.url | The URL of the Azure Key Vault instance. | String |  | true
 azure.keyvault.cache | Whether to cache the secrets fetched from Azure Key Vault locally. | Boolean | false | false
 azure.keyvault.cache.ttl | The time-to-live value (in milliseconds) for cache entries. It only takes effect when `azure.keyvault.cache` is set to `true`. | Long | 180000 (3 minutes) | false
@@ -15,7 +15,7 @@ azure.keyvault.secret-name-regex | The regular expression for matching the secre
 
 ## Authentication
 
-The library uses `DefaultAzureCredential` to authenticate with Azure Key Vault. See [Default Azure credential](https://learn.microsoft.com/en-us/azure/developer/java/sdk/identity-azure-hosted-auth#default-azure-credential) for more details.
+The library uses `DefaultAzureCredential` to authenticate with Azure Key Vault. See [Default Azure credential](https://learn.microsoft.com/en-us/azure/developer/java/sdk/identity-azure-hosted-auth#default-azure-credential) for more details on how to configure the authentication.
 
 ## Usage guide
 
