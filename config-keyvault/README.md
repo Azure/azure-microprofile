@@ -11,7 +11,7 @@ Property name | Description | Type | Default value | Required
 azure.keyvault.url | The URL of the Azure Key Vault instance. | String |  | true
 azure.keyvault.cache | Whether to cache the secrets fetched from Azure Key Vault locally. | Boolean | false | false
 azure.keyvault.cache.ttl | The time-to-live value (in milliseconds) for cache entries. It only takes effect when `azure.keyvault.cache` is set to `true`. | Long | 180000 (3 minutes) | false
-azure.keyvault.secret-name-regex | The regular expression for matching the secret names to be fetched from Azure Key Vault. | String | ^[0-9a-zA-Z-]+$ | false
+azure.keyvault.secret-name-regex | The regular expression for matching the secret names to be fetched from Azure Key Vault. It only takes effect when `azure.keyvault.cache` is set to `false`. | String | ^[0-9a-zA-Z-]+$ | false
 
 ## Authentication
 
