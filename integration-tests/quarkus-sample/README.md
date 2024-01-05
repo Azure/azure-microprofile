@@ -32,14 +32,14 @@ cd integration-tests/quarkus-sample
 
 ### Use release version
 
-If you want to use the release version, you need to update the version of **azure-microprofile-bom** in the [`pom.xml`](https://github.com/Azure/azure-microprofile/blob/main/integration-tests/pom.xml#L25) file.
+By default, the latest release version is used. If you want to use other release version, update the value of property **azure-microprofile-bom** in your local **azure-microprofile/integration-tests/pom.xml** file.
 
-1. Find out the available release version of the Azure MicroProfile extensions from [releases](https://github.com/Azure/azure-microprofile/releases), for example, `1.0.0-beta.2`.
-1. Update the **azure-microprofile-bom** in the [`pom.xml`](https://github.com/Azure/azure-microprofile/blob/main/integration-tests/pom.xml#L25) file to your selected version, for example, `1.0.0-beta.2`.
-   1. Make sure you are in the directory of **azure-microprofile/integration-tests**.
-   1. Open to edit the **pom.xml** file in your favorite editor and update the version of **azure-microprofile-bom**, e.g., `<azure-microprofile-bom.version>1.0.0-beta.2</azure-microprofile-bom.version>`.
-   1. Save the changes and close the editor.
-1. Switch to the directory of **quarkus-sample**: `cd quarkus-sample`.
+1. Find out the available release versions of the Azure MicroProfile extensions from [releases](https://github.com/Azure/azure-microprofile/releases).
+1. Open your local **azure-microprofile/integration-tests/pom.xml** file with your favorite editor.
+1. Update the value of property **azure-microprofile-bom.version** to your selected version, e.g., `<azure-microprofile-bom.version>your-selected-version</azure-microprofile-bom.version>`.
+1. Save the changes and close the editor.
+
+Change directory to **azure-microprofile/integration-tests/quarkus-sample** before moving to next step.
 
 ## Preparing the Azure services
 
@@ -113,16 +113,16 @@ Note: You may see the following similar error message in the console output, jus
 Open a new terminal and run the following commands to test the sample:
 
 ```
-# Get the value of secret "secret" stored in the Azure key vault. You should see `1234` in the response.
+# Get the value of secret "secret" stored in the Azure key vault. You should see 1234 in the response.
 echo $(curl -s http://localhost:8080/config/value/secret -X GET)
 
-# Get the value of secret "anotherSecret" stored in the Azure key vault. You should see `5678` in the response.
+# Get the value of secret "anotherSecret" stored in the Azure key vault. You should see 5678 in the response.
 echo $(curl -s http://localhost:8080/config/value/anotherSecret -X GET)
 
-# Get the names of secrets stored in the Azure key vault. You should see `["anotherSecret","secret"]` in the response.
+# Get the names of secrets stored in the Azure key vault. You should see ["anotherSecret","secret"] in the response.
 echo $(curl -s http://localhost:8080/config/propertyNames -X GET)
 
-# Get the name-value paris of secrets stored in the Azure key vault. You should see `{"anotherSecret":"5678","secret":"1234"}` in the response.
+# Get the name-value paris of secrets stored in the Azure key vault. You should see {"anotherSecret":"5678","secret":"1234"} in the response.
 echo $(curl -s http://localhost:8080/config/properties -X GET)
 ```
 
