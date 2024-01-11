@@ -11,6 +11,13 @@ The following extensions allows you to interact with some of the Azure Services:
 
 * [Config Source for Azure Key Vault](config-keyvault): [Azure Key Vault](https://azure.microsoft.com/services/key-vault/) is a cloud service for securely storing and accessing secrets.
 
+   ```xml
+   <dependency>
+    <groupId>com.azure.microprofile</groupId>
+    <artifactId>azure-microprofile-config-keyvault</artifactId>
+   </dependency>
+   ```
+
 ## Sample applications
 
 Sample applications can be found inside the [integration-tests](integration-tests) folder:
