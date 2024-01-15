@@ -7,12 +7,12 @@ on:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
-      - '*.md'
+      - '**.md'
   pull_request:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
-      - '*.md'
+      - '**.md'
   workflow_dispatch:
   schedule:
     # Runs every Monday at 1:00 PM (GMT +08:00)
