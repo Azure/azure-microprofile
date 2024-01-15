@@ -19,4 +19,4 @@ The library uses `DefaultAzureCredential` to authenticate with Azure Key Vault. 
 
 ## Usage guide
 
-TODO.
+See guide [Configure MicroProfile with Azure Key Vault](https://learn.microsoft.com/azure/developer/java/eclipse-microprofile/configure-microprofile-with-keyvault) for how to use the library in a sample app, run locally and run on Azure Container Apps.
