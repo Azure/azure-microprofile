@@ -19,7 +19,7 @@
     
     <properties>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
-        <liberty-maven-plugin.version>3.9</liberty-maven-plugin.version>
+        <liberty-maven-plugin.version>3.10.2</liberty-maven-plugin.version>
     </properties>
     
     <dependencies>
