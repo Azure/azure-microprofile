@@ -14,7 +14,8 @@ az group create \
 az keyvault create \
     --name "${KEY_VAULT_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
-    --location eastus
+    --location eastus \
+    --enable-rbac-authorization false
 
 # Add a few secrets to the key vault
 az keyvault secret set \
