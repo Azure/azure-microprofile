@@ -79,7 +79,7 @@ If you just run the sample in the same shell session without further manual conf
 Now you can launch the sample with:
 
 ```
-mvn package liberty:run
+mvn clean package liberty:run
 ```
 
 If you receive the similar error message `[ERROR] 'dependencies.dependency.version' for com.azure.microprofile:azure-microprofile-config-keyvault:jar is missing`, which means the `azure-microprofile-config-keyvault` extension is not available in the Maven repository, you need to build the extension locally and install it into your local Maven repository.
@@ -91,7 +91,7 @@ mvn clean install -DskipTests --file ../../pom.xml
 Then, run the sample again.
 
 ```
-mvn package liberty:run
+mvn clean package liberty:run
 ```
 
 ## Testing the sample

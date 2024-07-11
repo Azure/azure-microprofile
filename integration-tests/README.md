@@ -72,7 +72,7 @@ of `microprofile-config-keyvault` extension in order to set up the connection to
 Finally, launch the integration test with:
 
 ```
-mvn verify -Dazure.test=true
+mvn clean verify -Dazure.test=true
 ```
 
 If you receive the similar error message `[ERROR] 'dependencies.dependency.version' for com.azure.microprofile:azure-microprofile-config-keyvault:jar is missing`, which means the `azure-microprofile-config-keyvault` extension is not available in the Maven repository, you need to build the extension locally and install it into your local Maven repository.
@@ -84,7 +84,7 @@ mvn clean install -DskipTests --file ../pom.xml
 Then, run the integration test again.
 
 ```
-mvn verify -Dazure.test=true
+mvn clean verify -Dazure.test=true
 ```
 
 ### Cleaning up Azure resources

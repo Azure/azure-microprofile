@@ -79,7 +79,7 @@ If you just run the sample in the same shell session without further manual conf
 Now you can launch the sample with:
 
 ```
-mvn package quarkus:run
+mvn clean package quarkus:run
 ```
 
 Note: You may see the following similar error message in the console output, just ignore it. It is because the Azure Key Vault custom ConfigSource will try the different authentication methods until it's successful.
@@ -97,7 +97,7 @@ mvn clean install -DskipTests --file ../../pom.xml
 Then, run the sample again.
 
 ```
-mvn package quarkus:run
+mvn clean package quarkus:run
 ```
 
 ## Testing the sample
