@@ -7,7 +7,7 @@ in Azure Key Vault.
 
 To successfully run this sample, you need:
 
-* JDK 11+ installed with JAVA_HOME configured appropriately
+* JDK 17+ installed with JAVA_HOME configured appropriately
 * Apache Maven 3.8.6+
 * Azure CLI and Azure subscription
 
