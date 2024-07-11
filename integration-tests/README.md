@@ -2,6 +2,14 @@
 
 This is the integration test for testing all Azure Extensions for MicroProfile from REST endpoints.
 
+## Prerequisites
+
+To successfully run this sample, you need:
+
+* JDK 17+ installed with JAVA_HOME configured appropriately
+* Apache Maven 3.8.6+
+* Azure CLI and Azure subscription
+
 ## Installing dependencies
 
 Firstly, you need to make sure the right version of dependencies are installed.
