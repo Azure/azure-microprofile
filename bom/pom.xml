@@ -6,13 +6,13 @@
     <parent>
         <groupId>com.azure.microprofile</groupId>
         <artifactId>azure-microprofile-parent</artifactId>
-        <version>1.0.0-beta.2</version>
+        <version>1.0.0-beta.3</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
     
     <groupId>com.azure.microprofile</groupId>
     <artifactId>azure-microprofile-bom</artifactId>
-    <version>1.0.0-beta.2</version>
+    <version>1.0.0-beta.3</version>
     <packaging>pom</packaging>
     
     <name>Azure extensions for MicroProfile :: BOM</name>
