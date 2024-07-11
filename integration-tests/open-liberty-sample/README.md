@@ -11,43 +11,22 @@ To successfully run this sample, you need:
 * Apache Maven 3.8.6+
 * Azure CLI and Azure subscription
 
-You also need to make sure the right version of dependencies are installed.
+## Preparing the sample
 
-### Use development iteration version
-
-By default, the sample depends on the development iteration version. To install the development iteration version, you
-need to build it locally.
+Firstly, you need to clone the repository and switch to the directory of the Open Liberty sample.
 
 ```
-# Switch to the root directory of this repository.
-# For example, if you are in the directory of azure-microprofile/integration-tests/open-liberty-sample
-cd ../..
-
-# Install all Azure Extensions for MicroProfile locally.
-mvn clean install -DskipTests
-
-# Switch back to the directory of integration-tests/open-liberty-sample
-cd integration-tests/open-liberty-sample
+git clone https://github.com/Azure/azure-microprofile.git
+cd azure-microprofile/integration-tests/open-liberty-sample
 ```
-
-### Use release version
-
-By default, the latest release version is used. If you want to use other release version, update the value of property **azure-microprofile-bom** in your local **azure-microprofile/integration-tests/pom.xml** file.
-
-1. Find out the available release versions of the Azure MicroProfile extensions from [releases](https://github.com/Azure/azure-microprofile/releases).
-1. Open your local **azure-microprofile/integration-tests/pom.xml** file with your favorite editor.
-1. Update the value of property **azure-microprofile-bom.version** to your selected version, e.g., `<azure-microprofile-bom.version>your-selected-version</azure-microprofile-bom.version>`.
-1. Save the changes and close the editor.
-
-Change directory to **azure-microprofile/integration-tests/open-liberty-sample** before moving to next step.
 
 ## Preparing the Azure services
 
-The Custom ConfigSource implemented by `microprofile-config-keyvault` extension needs to connect to a real Azure Key Vault instance, follow steps below to create one.
+The Custom ConfigSource implemented by `azure-microprofile-config-keyvault` extension needs to connect to a real Azure Key Vault instance, follow steps below to create one.
 
 ### Logging into Azure
 
-Sign in Azure and create a resource group for hosting different Azure services to be created.
+Sign in to Azure and create a resource group for hosting different Azure services to be created.
 
 ```
 az login
@@ -80,9 +59,9 @@ az keyvault secret set \
     --value 5678
 
 export AZURE_KEYVAULT_URL=$(az keyvault show \
-  --resource-group "${RESOURCE_GROUP_NAME}" \
-  --name "${KEY_VAULT_NAME}" \
-  --query properties.vaultUri -o tsv)
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    --name "${KEY_VAULT_NAME}" \
+    --query properties.vaultUri -o tsv)
 echo $AZURE_KEYVAULT_URL
 ```
 
@@ -98,6 +77,18 @@ If you just run the sample in the same shell session without further manual conf
 ## Running the sample
 
 Now you can launch the sample with:
+
+```
+mvn package liberty:run
+```
+
+If you receive the similar error message `[ERROR] 'dependencies.dependency.version' for com.azure.microprofile:azure-microprofile-config-keyvault:jar is missing`, which means the `azure-microprofile-config-keyvault` extension is not available in the Maven repository, you need to build the extension locally and install it into your local Maven repository.
+
+```
+mvn clean install -DskipTests --file ../../pom.xml
+```
+
+Then, run the sample again.
 
 ```
 mvn package liberty:run
