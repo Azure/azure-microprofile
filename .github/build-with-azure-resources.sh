@@ -36,19 +36,3 @@ export AZURE_KEYVAULT_URL=$(az keyvault show \
 # Build and run the integration tests against the Azure services
 mvn -version
 mvn -B clean install -Dazure.test=true
-
-# Delete the key vault
-az keyvault delete \
-    --name "${KEY_VAULT_NAME}" \
-    --resource-group "${RESOURCE_GROUP_NAME}"
-
-# Purge the key vault
-az keyvault purge \
-    --name "${KEY_VAULT_NAME}" \
-    --no-wait
-
-# Delete the resource group
-az group delete \
-    --name "${RESOURCE_GROUP_NAME}" \
-    --yes \
-    --no-wait
