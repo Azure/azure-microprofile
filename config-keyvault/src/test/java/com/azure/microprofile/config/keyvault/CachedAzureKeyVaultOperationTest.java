@@ -115,6 +115,58 @@ class CachedAzureKeyVaultOperationTest {
         verifyInvocation(2);
     }
 
+    @Test
+    void testGetValueWithDottedSecretName() {
+        // Setup cache with remapped secret name
+        String remappedSecretName = "my-secret-name";
+        whenStubbing(new KeyVaultSecret(remappedSecretName, SECRET_VALUE));
+        
+        // Initialize cache
+        operation.getProperties();
+        
+        // Try to get value with dotted name
+        String dottedSecretName = "my.secret.name";
+        String value = operation.getValue(dottedSecretName);
+        
+        assertEquals(SECRET_VALUE, value);
+    }
+
+    @Test
+    void testGetValueWithExactMatchFirst() {
+        // Setup cache with exact secret name
+        whenStubbing(new KeyVaultSecret(SECRET_NAME, SECRET_VALUE));
+        
+        // Initialize cache
+        operation.getProperties();
+        
+        // Try to get value with exact name
+        String value = operation.getValue(SECRET_NAME);
+        
+        assertEquals(SECRET_VALUE, value);
+    }
+
+    @Test
+    void testGetValueWithMixedSpecialCharacters() {
+        // Setup cache with remapped secret name
+        String remappedSecretName = "app-config-value";
+        whenStubbing(new KeyVaultSecret(remappedSecretName, SECRET_VALUE));
+        
+        // Initialize cache
+        operation.getProperties();
+        
+        // Try to get value with special characters
+        String specialSecretName = "app/config@value";
+        String value = operation.getValue(specialSecretName);
+        
+        assertEquals(SECRET_VALUE, value);
+    }
+
+    @Test
+    void testGetValueWithNullSecretName() {
+        String value = operation.getValue(null);
+        assertEquals(null, value);
+    }
+
     private void whenStubbing(KeyVaultSecret keyVaultSecret) {
         when(secretPropertiesPagedIterable.stream()).thenReturn(Stream.of(keyVaultSecret.getProperties()));
         when(secretClient.listPropertiesOfSecrets()).thenReturn(secretPropertiesPagedIterable);

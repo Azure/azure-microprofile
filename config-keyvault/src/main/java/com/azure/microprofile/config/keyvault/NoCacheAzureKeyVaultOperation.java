@@ -84,10 +84,36 @@ class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
      * @return Secret value if secretName is valid and exists; otherwise, null.
      */
     public String getValue(String secretName) {
+        if (secretName == null) {
+            return null;
+        }
+
+        // Try exact match first
+        String value = tryGetValue(secretName);
+        if (value != null) {
+            return value;
+        }
+
+        // Try remapped key (replace non-alphanumeric/dash characters with dash)
+        String remappedSecretName = AzureKeyVaultOperation.toKeyVaultSecretName(secretName);
+        if (!remappedSecretName.equals(secretName)) {
+            return tryGetValue(remappedSecretName);
+        }
+
+        return null;
+    }
+
+    /**
+     * Try to get secret value from Azure Key Vault.
+     *
+     * @param secretName Secret name.
+     * @return Secret value if secretName is valid and exists; otherwise, null.
+     */
+    private String tryGetValue(String secretName) {
         // Check if secretName is valid using regex secretNameRegex
         // The goal is to bypass unnecessary calls to Azure Key Vault especially there are lots of properties from other sources
         if (!secretName.matches(secretNameRegex)) {
-            LOGGER.log(LogLevel.VERBOSE, () -> MessageFormat.format("getValue() failed with exception: secretName {0} does not match regex {1}",
+            LOGGER.log(LogLevel.VERBOSE, () -> MessageFormat.format("tryGetValue() failed with exception: secretName {0} does not match regex {1}",
                     secretName, secretNameRegex));
             return null;
         }
@@ -95,7 +121,7 @@ class NoCacheAzureKeyVaultOperation implements AzureKeyVaultOperation {
         try {
             return secretKeyVaultClient.getSecret(secretName).getValue();
         } catch (Exception e) {
-            LOGGER.log(LogLevel.INFORMATIONAL, () -> "getValue() failed with exception: " + e.getMessage());
+            LOGGER.log(LogLevel.INFORMATIONAL, () -> "tryGetValue() failed with exception: " + e.getMessage());
             return null;
         }
     }

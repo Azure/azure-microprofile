@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 class NoCacheAzureKeyVaultOperationTest {
@@ -96,5 +97,66 @@ class NoCacheAzureKeyVaultOperationTest {
 
         assertEquals(null, value);
         verify(secretClient, never()).getSecret(invalidSecretName);
+    }
+
+    @Test
+    void testGetValueWithDottedSecretName() {
+        String dottedSecretName = "my.secret.name";
+        String remappedSecretName = "my-secret-name";
+        
+        // Mock the remapped secret to exist
+        when(secretClient.getSecret(remappedSecretName)).thenReturn(keyVaultSecret);
+        when(keyVaultSecret.getValue()).thenReturn(SECRET_VALUE);
+
+        String value = operation.getValue(dottedSecretName);
+
+        assertEquals(SECRET_VALUE, value);
+        // Should not try the original dotted name (as it doesn't match regex)
+        verify(secretClient, never()).getSecret(dottedSecretName);
+        // Should try the remapped name
+        verify(secretClient).getSecret(remappedSecretName);
+        verify(keyVaultSecret).getValue();
+    }
+
+    @Test
+    void testGetValueWithExactMatchFirst() {
+        String secretName = "my-secret";
+        
+        // Mock the exact secret to exist
+        when(secretClient.getSecret(secretName)).thenReturn(keyVaultSecret);
+        when(keyVaultSecret.getValue()).thenReturn(SECRET_VALUE);
+
+        String value = operation.getValue(secretName);
+
+        assertEquals(SECRET_VALUE, value);
+        // Should only try the exact match
+        verify(secretClient).getSecret(secretName);
+        verify(keyVaultSecret).getValue();
+    }
+
+    @Test
+    void testGetValueWithMixedSpecialCharacters() {
+        String specialSecretName = "app/config@value";
+        String remappedSecretName = "app-config-value";
+        
+        // Mock the remapped secret to exist
+        when(secretClient.getSecret(remappedSecretName)).thenReturn(keyVaultSecret);
+        when(keyVaultSecret.getValue()).thenReturn(SECRET_VALUE);
+
+        String value = operation.getValue(specialSecretName);
+
+        assertEquals(SECRET_VALUE, value);
+        // Should not try the original name (as it doesn't match regex)
+        verify(secretClient, never()).getSecret(specialSecretName);
+        // Should try the remapped name
+        verify(secretClient).getSecret(remappedSecretName);
+        verify(keyVaultSecret).getValue();
+    }
+
+    @Test
+    void testGetValueWithNullSecretName() {
+        String value = operation.getValue(null);
+        assertEquals(null, value);
+        verify(secretClient, never()).getSecret(any());
     }
 }
