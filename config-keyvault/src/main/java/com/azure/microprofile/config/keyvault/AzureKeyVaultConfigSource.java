@@ -90,7 +90,7 @@ public final class AzureKeyVaultConfigSource implements ConfigSource {
             return;
         }
 
-        boolean cached = config.getOptionalValue("azure.keyvault.cache", Boolean.class).orElse(Boolean.FALSE);
+        boolean cached = config.getOptionalValue("azure.keyvault.cache", Boolean.class).orElse(Boolean.TRUE);
         if (cached) {
             Long ttl = config.getOptionalValue("azure.keyvault.cache.ttl", Long.class).orElse(null);
             this.keyVaultOperation = new CachedAzureKeyVaultOperation(url, ttl);

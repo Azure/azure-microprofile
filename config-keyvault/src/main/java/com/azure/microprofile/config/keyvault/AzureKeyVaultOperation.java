@@ -36,6 +36,21 @@ interface AzureKeyVaultOperation {
     }
 
     /**
+     * Convert a property name to a Key Vault compatible secret name.
+     * Key Vault secret names can only contain 0-9, a-z, A-Z, and - characters.
+     * This method replaces all other characters with dashes.
+     *
+     * @param propertyName the property name to convert
+     * @return the Key Vault compatible secret name
+     */
+    static String toKeyVaultSecretName(String propertyName) {
+        if (propertyName == null) {
+            return null;
+        }
+        return propertyName.replaceAll("[^0-9a-zA-Z-]", "-");
+    }
+
+    /**
      * Get secret names from Azure Key Vault.
      *
      * @return Name {@link Set} of secrets.

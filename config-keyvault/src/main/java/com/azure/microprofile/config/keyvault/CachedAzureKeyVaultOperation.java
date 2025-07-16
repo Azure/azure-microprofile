@@ -99,11 +99,28 @@ class CachedAzureKeyVaultOperation implements AzureKeyVaultOperation {
      * @implNote This method is thread-safe. It uses {@link ReadWriteLock} to protect the {@link #propertiesMap}. This method will refresh the cache if the cache is expired.
      */
     public String getValue(String secretName) {
+        if (secretName == null) {
+            return null;
+        }
+
         checkRefreshTimeOut();
 
         try {
             rwLock.readLock().lock();
-            return propertiesMap.getOrDefault(secretName, null);
+            
+            // Try exact match first
+            String value = propertiesMap.get(secretName);
+            if (value != null) {
+                return value;
+            }
+
+            // Try remapped key (replace non-alphanumeric/dash characters with dash)
+            String remappedSecretName = AzureKeyVaultOperation.toKeyVaultSecretName(secretName);
+            if (!remappedSecretName.equals(secretName)) {
+                return propertiesMap.get(remappedSecretName);
+            }
+
+            return null;
         } finally {
             rwLock.readLock().unlock();
         }
